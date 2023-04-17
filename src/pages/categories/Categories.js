@@ -9,6 +9,7 @@ const Categories = () => {
     const [categories, setCategories] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const postsPerPage = 5;
+    const role = localStorage.getItem("role");
 
     useEffect(() => {
         getCategories((result) => setCategories(result));
@@ -28,41 +29,57 @@ const Categories = () => {
                 <h3 className="my-4 fw-bold">Category List</h3>
             </section>
             <section className="container">
-                <Link className="btn btn-dark" to={`/categories/create`}>
-                    Add Category
-                </Link>
+                {role === "Admin" ? (
+                    <Link className="btn btn-dark" to={`/categories/create`}>
+                        Add Category
+                    </Link>
+                ) : (
+                    <></>
+                )}
                 <section className="d-flex justify-content-center">
                     <table className="table table-bordered text-center mt-2">
                         <thead>
                             <tr className="table-dark">
+                                <th>No.</th>
                                 <th>ID</th>
                                 <th>Name</th>
+                                <th>Available Item(s)</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {currentPosts.length > 0 ? (
                                 currentPosts.map((category, index) => {
-                                    const { id, name } = category;
+                                    const { id, name, Items } = category;
 
                                     return (
                                         <tr key={id}>
                                             <td>{index + 1}</td>
+                                            <td>{id}</td>
                                             <td>{name}</td>
+                                            <td>{Items.length}</td>
                                             <td>
-                                                <Link
-                                                    to={`/categories/edit/${id}`}
-                                                >
-                                                    <AiFillEdit className="dark-color me-2"></AiFillEdit>
-                                                </Link>
-                                                <button
-                                                    className="btn p-0 mb-1"
-                                                    onClick={() =>
-                                                        deleteHandler(+id)
-                                                    }
-                                                >
-                                                    <AiFillDelete className="red-color"></AiFillDelete>
-                                                </button>
+                                                {role === "Admin" ? (
+                                                    <Link
+                                                        to={`/categories/edit/${id}`}
+                                                    >
+                                                        <AiFillEdit className="dark-color me-2"></AiFillEdit>
+                                                    </Link>
+                                                ) : (
+                                                    <p>N/A</p>
+                                                )}
+                                                {role === "Admin" ? (
+                                                    <button
+                                                        className="btn p-0 mb-1"
+                                                        onClick={() =>
+                                                            deleteHandler(+id)
+                                                        }
+                                                    >
+                                                        <AiFillDelete className="red-color"></AiFillDelete>
+                                                    </button>
+                                                ) : (
+                                                    <></>
+                                                )}
                                             </td>
                                         </tr>
                                     );
@@ -70,7 +87,7 @@ const Categories = () => {
                             ) : (
                                 <EmptyRow
                                     name={"Categories"}
-                                    col={"3"}
+                                    col={"5"}
                                 ></EmptyRow>
                             )}
                         </tbody>

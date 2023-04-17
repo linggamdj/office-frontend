@@ -3,30 +3,24 @@ import { Link, useNavigate } from "react-router-dom";
 import { AiFillMail } from "react-icons/ai";
 import { FaUserAlt, FaKey, FaLock, FaUserTie } from "react-icons/fa";
 import logo from "../../assets/hi-logo.png";
-import { register } from "../../axios/userAxios";
+import { registerAdmin } from "../../axios/userAxios";
 
-const Register = (props) => {
+const RegisterAdmin = (props) => {
     const { isLoginHandler } = props;
 
-    const roles = [
-        'Front End Developer',
-        'Mobile App Developer',
-        'Back End Developer',
-        'Full Stack Developer',
-        'UI/UX Engineer',
-        'QA Engineer'
-    ];
+    const role = 'Admin';
 
     const [form, setForm] = useState({
         email: "",
         username: "",
         password: "",
         confirmPassword: "",
-        role: roles[0],
+        role: role,
     });
 
     const submitHandler = () => {
-        register(form, isLoginHandler);
+        registerAdmin(form);
+        navigation('/')
     };
 
     const navigation = useNavigate();
@@ -174,26 +168,7 @@ const Register = (props) => {
                                                         <label className="form-label">
                                                             Role
                                                         </label>
-                                                        <select
-                                                            onChange={(e) => {
-                                                                setForm({
-                                                                    ...form,
-                                                                    role: e.target.value
-                                                                });
-                                                            }} 
-                                                            class="form-select" 
-                                                            aria-label="Default select example">
-                                                            {
-                                                                roles.map((role) => {
-                                                                    return(
-                                                                        <option
-                                                                            value={role}>
-                                                                            {role}
-                                                                        </option>
-                                                                    )
-                                                                })
-                                                            }
-                                                        </select>
+                                                        <h4>{role}</h4>
                                                     </div>
                                                 </div>
 
@@ -237,4 +212,4 @@ const Register = (props) => {
     );
 };
 
-export default Register;
+export default RegisterAdmin;

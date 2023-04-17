@@ -58,6 +58,34 @@ const getUserById = async (id, cb) => {
     }
 };
 
+const detail = async (id, cb) => {
+    try {
+        let result = await axios({
+            method: 'GET',
+            url: `${URL}/detail/${id}`,
+            headers: {
+                access_token
+            }
+        });
+
+        cb(result.data.data);
+    } catch(error) {
+        if (error.response.status !== 500) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: `${error.response.data.message}`,
+            });
+        } else {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: `Server Error`,
+            });
+        }
+    }
+}
+
 const editUser = async (id, user) => {
     try {
         let result = await axios({
@@ -88,6 +116,51 @@ const editUser = async (id, user) => {
         }
     }
 };
+
+const deleteUser = async (id) => {
+    try {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!",
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const userId = localStorage.getItem('user_id');
+                let result = await axios({
+                    method: 'DELETE',
+                    url: `${URL}/delete/${id}`,
+                    headers: {
+                        access_token
+                    }
+                });
+                
+                console.log(result)
+                Swal.fire("Delete User", "User has been deleted", "Success")
+                if (id !== userId) {
+                    window.location.reload();
+                }
+            }
+        });
+    } catch(error) {
+        if (error.response.status !== 500) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: `${error.response.data.message}`,
+            });
+        } else {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: `Server Error`,
+            });
+        }
+    }
+}
 
 const login = async (user, cbHandler) => {
     try {
@@ -168,6 +241,40 @@ const register = async (user, cbHandler) => {
     }
 };
 
+const registerAdmin = async (user, cbHandler) => {
+    if (user.password === user.confirmPassword) {
+        try {
+            await axios({
+                method: "POST",
+                url: `${URL}/register`,
+                data: user,
+            });
+
+            Swal.fire("Register", "Register Success", "success");
+        } catch (error) {
+            if (error.response.status !== 500) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: `${error.response.data.message}`,
+                });
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: `Server Error`,
+                });
+            }
+        }
+    } else {
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Incorrect Confirm Password",
+        });
+    }
+};
+
 const logout = async (cbHandler) => {
     localStorage.clear();
     cbHandler(false);
@@ -175,4 +282,4 @@ const logout = async (cbHandler) => {
     Swal.fire("Logout", "Logout Success", "success");
 };
 
-export { getUsers, getUserById, login, register, logout, editUser };
+export { getUsers, getUserById, detail, login, register, registerAdmin, logout, editUser, deleteUser };

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import { Login, Register } from "../pages";
+import { Login, Register, RegisterAdmin } from "../pages";
 
 const LoginContent = (props) => {
     const { loginCbHandler } = props;
@@ -33,6 +33,12 @@ const LoginContent = (props) => {
                     }
                 ></Route>
             )}
+            <Route
+                path="adminRegister"
+                element={
+                    <RegisterAdmin></RegisterAdmin>
+                }
+            ></Route>
         </Routes>
     );
 };

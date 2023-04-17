@@ -25,9 +25,11 @@ import EditProfile from "./profiles/EditProfile";
 import ChangePassword from "./profiles/ChangePassword";
 import Login from "./profiles/Login";
 import Register from "./profiles/Register";
+import RegisterAdmin from "./profiles/RegisterAdmin";
 
 // Others
 import NotFound from "./others/NotFound";
+import EmptyList from "./others/EmptyList";
 
 export {
     Home,
@@ -46,5 +48,7 @@ export {
     ChangePassword,
     Login,
     Register,
+    RegisterAdmin,
     NotFound,
+    EmptyList
 };

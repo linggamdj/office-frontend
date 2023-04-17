@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import Select from "react-select";
-import { AiFillDelete } from "react-icons/ai";
-import { getItems } from "../../axios/itemAxios";
-import { getUsers } from "../../axios/userAxios";
-import { getBorrows, returnBorrow } from "../../axios/borrowAxios";
 import EmptyRow from "../../helpers/EmptyRow";
+import { getItems } from "../../axios/itemAxios";
+import { getBorrows, returnBorrow } from "../../axios/borrowAxios";
+import { getUsers } from "../../axios/userAxios";
+import { Link } from "react-router-dom";
+import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 import Pagination from "../../components/Pagination";
+import Select from "react-select";
 
 const Borrows = () => {
     const [borrows, setBorrows] = useState([]);
@@ -77,6 +77,7 @@ const Borrows = () => {
                     <table className="table table-bordered text-center mt-2">
                         <thead>
                             <tr className="table-dark">
+                                <th>No.</th>
                                 <th>ID</th>
                                 <th>Employee Name</th>
                                 <th>Item Borrowed</th>
@@ -91,6 +92,7 @@ const Borrows = () => {
                                     return (
                                         <tr key={id}>
                                             <td>{index + 1}</td>
+                                            <td>{id}</td>
                                             {users
                                                 ?.filter(
                                                     (user) =>
@@ -128,7 +130,7 @@ const Borrows = () => {
                                     );
                                 })
                             ) : (
-                                <EmptyRow name={"Borrows"} col={"4"}></EmptyRow>
+                                <EmptyRow name={"Borrows"} col={"5"}></EmptyRow>
                             )}
                         </tbody>
                     </table>

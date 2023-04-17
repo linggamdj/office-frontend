@@ -24,7 +24,7 @@ const CreateItem = () => {
             setForm({
                 name: result.name,
                 stock: result.stock,
-                CategoryId: result.categoryId,
+                CategoryId: result.CategoryId,
                 image: result.image_name,
             });
             getCategories((result) => setCategories(result));
@@ -85,7 +85,7 @@ const CreateItem = () => {
                             onChange={(e) => {
                                 setForm({ ...form, CategoryId: +e.value });
                             }}
-                            placeholder="Don't Select!"
+                            placeholder="Reselect Category"
                             required
                         />
                     </div>

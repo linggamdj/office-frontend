@@ -13,6 +13,7 @@ const Items = () => {
     const [categories, setCategories] = useState();
     const [currentPage, setCurrentPage] = useState(1);
     const postsPerPage = 5;
+    const role = localStorage.getItem("role");
 
     let categoryOptions = [];
 
@@ -48,10 +49,14 @@ const Items = () => {
             </section>
             <section className="container">
                 <div className="d-flex justify-content-between">
-                    <Link className="btn btn-dark" to={`/items/create`}>
-                        Add Item
-                    </Link>
-                    <div className="btn-group ms-2">
+                    {role === "Admin" ? (
+                        <Link className="btn btn-dark" to={`/items/create`}>
+                            Add Item
+                        </Link>
+                    ) : (
+                        <></>
+                    )}
+                    <div className="btn-group">
                         <Select
                             options={categoryOptions}
                             isClearable={true}
@@ -111,17 +116,27 @@ const Items = () => {
                                                 )}
                                             </td>
                                             <td>
-                                                <Link to={`/items/edit/${id}`}>
-                                                    <AiFillEdit className="dark-color me-2"></AiFillEdit>
-                                                </Link>
-                                                <button
-                                                    className="btn p-0 mb-1"
-                                                    onClick={() =>
-                                                        deleteHandler(+id)
-                                                    }
-                                                >
-                                                    <AiFillDelete className="red-color"></AiFillDelete>
-                                                </button>
+                                                {role === "Admin" ? (
+                                                    <Link
+                                                        to={`/items/edit/${id}`}
+                                                    >
+                                                        <AiFillEdit className="dark-color me-2"></AiFillEdit>
+                                                    </Link>
+                                                ) : (
+                                                    <p>N/A</p>
+                                                )}
+                                                {role === "Admin" ? (
+                                                    <button
+                                                        className="btn p-0 mb-1"
+                                                        onClick={() =>
+                                                            deleteHandler(+id)
+                                                        }
+                                                    >
+                                                        <AiFillDelete className="red-color"></AiFillDelete>
+                                                    </button>
+                                                ) : (
+                                                    <></>
+                                                )}
                                             </td>
                                         </tr>
                                     );

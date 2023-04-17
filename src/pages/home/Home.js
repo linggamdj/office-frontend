@@ -2,11 +2,24 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getItems, deleteItem } from "../../axios/itemAxios";
 import Pagination from "../../components/Pagination";
+import { addBorrow, returnBorrow } from "../../axios/borrowAxios";
 
 const HomePage = () => {
+    const userId = localStorage.getItem("user_id");
+    const role = localStorage.getItem("role")
+
     const [items, setItems] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const postsPerPage = 3;
+    const [borrow, setBorrow] = useState({
+        EmployeeId: 0,
+        ItemId: 0
+    });
+    const [returnItem, setReturnItem] = useState({
+        EmployeeId: 0,
+        ItemId: 0
+    });
+
 
     const lastPostIndex = currentPage * postsPerPage;
     const firstPostIndex = lastPostIndex - postsPerPage;
@@ -19,6 +32,14 @@ const HomePage = () => {
     const deleteHandler = (id) => {
         deleteItem(id);
     };
+
+    const borrowHandler = (borrow) => {
+        addBorrow(borrow);
+    }
+
+    const returnHandler = (returnItem) => {
+        returnBorrow(returnItem);
+    }
 
     return (
         <>
@@ -38,7 +59,7 @@ const HomePage = () => {
                             Category,
                         } = item;
 
-                        return (
+                        return(
                             <div
                                 className="col-sm-12 col-md-8 col-lg-6"
                                 style={{ width: "25rem" }}
@@ -65,25 +86,62 @@ const HomePage = () => {
                                                 </button>
                                                 <ul className="dropdown-menu">
                                                     <li>
-                                                        <Link
+                                                        <button
+                                                            onClick={() => {
+                                                                setBorrow({
+                                                                    ...borrow,
+                                                                    EmployeeId: userId,
+                                                                    ItemId: id
+                                                                });
+
+                                                                console.log(userId);
+                                                                console.log(id);
+                                                                console.log(borrow);
+                                                                borrowHandler(borrow);
+                                                            }}
                                                             className="dropdown-item"
-                                                            to={`/items/edit/${id}`}
                                                         >
-                                                            Edit
-                                                        </Link>
+                                                            Borrow
+                                                        </button>
                                                     </li>
                                                     <li>
                                                         <button
-                                                            onClick={() =>
-                                                                deleteHandler(
-                                                                    +id
-                                                                )
-                                                            }
-                                                            className="dropdown-item red-color"
+                                                            onClick={() => {
+                                                                setReturnItem({
+                                                                    ...returnItem,
+                                                                    EmployeeId: userId,
+                                                                    ItemId: id
+                                                                });
+                                                                console.log(userId);
+                                                                console.log(id);
+                                                                console.log(returnItem)
+                                                                returnHandler(returnItem);
+                                                            }}
+                                                            className="dropdown-item"
                                                         >
-                                                            Delete
+                                                            Return
                                                         </button>
                                                     </li>
+                                                    { role === 'Admin' ? <li>
+                                                            <Link
+                                                                className="dropdown-item"
+                                                                to={`/items/edit/${id}`}
+                                                            >
+                                                                Edit
+                                                            </Link>
+                                                        </li> : <></>
+                                                    }
+                                                    { role === 'Admin' ? <li>
+                                                            <button
+                                                                onClick={() =>
+                                                                    deleteHandler(+id)
+                                                                }
+                                                                className="dropdown-item red-color"
+                                                            >
+                                                                Delete
+                                                            </button>
+                                                        </li> : <></>
+                                                    }
                                                 </ul>
                                             </div>
                                         </div>
