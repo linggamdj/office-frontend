@@ -52,10 +52,10 @@ const Borrows = () => {
             </section>
             <section className="container">
                 <div className="d-flex justify-content-between">
-                    <Link className="btn btn-dark" to={`/borrows/create`}>
+                    {/* <Link className="btn btn-dark" to={`/borrows/create`}>
                         Borrow Item
-                    </Link>
-                    <div className="btn-group ms-2">
+                    </Link> */}
+                    <div className="btn-group">
                         <Select
                             options={userOptions}
                             isClearable={true}

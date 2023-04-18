@@ -8,7 +8,7 @@ import { registerAdmin } from "../../axios/userAxios";
 const RegisterAdmin = (props) => {
     const { isLoginHandler } = props;
 
-    const role = 'Admin';
+    const role = "Admin";
 
     const [form, setForm] = useState({
         email: "",
@@ -20,7 +20,7 @@ const RegisterAdmin = (props) => {
 
     const submitHandler = () => {
         registerAdmin(form);
-        navigation('/')
+        navigation("/");
     };
 
     const navigation = useNavigate();
@@ -168,7 +168,7 @@ const RegisterAdmin = (props) => {
                                                         <label className="form-label">
                                                             Role
                                                         </label>
-                                                        <h4>{role}</h4>
+                                                        <h5>{role}</h5>
                                                     </div>
                                                 </div>
 

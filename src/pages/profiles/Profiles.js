@@ -33,7 +33,7 @@ const Profiles = () => {
 
     return (
         <>
-            <div className="container mt-5">
+            <div className="container mt-5 mb-4">
                 <div className="row d-flex justify-content-center">
                     <div className="col-md-7">
                         <div className="card p-3 py-4">
@@ -93,7 +93,7 @@ const Profiles = () => {
 
             <div className="container-fluid">
                 <hr></hr>
-                <h1>Borrowed Items</h1>
+                <h2>Borrowed Items</h2>
                 <section className="note-list">
                     <div className="row justify-content-left">
                         {console.log(
@@ -117,7 +117,7 @@ const Profiles = () => {
                                         style={{ width: "25rem" }}
                                         key={id}
                                     >
-                                        <div className="card-product card mb-4 mx-2 my-4">
+                                        <div className="card-product card mb-4 me-2 my-4">
                                             <div className="card-body px-3">
                                                 <div className="product-section d-flex justify-content-between fw-semibold mb-1">
                                                     <div>
